@@ -6,9 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float speed = 12f;
-    public float gravity = -19.62f; // -9.81 * 2
+    public float gravity = -9.81f;
     public float jumpHeight = 3f;
-    public float smoothTime = 0.1f; // Tempo para suavização do movimento
 
     [Header("Ground Check Settings")]
     public Transform groundCheck;
@@ -21,8 +20,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private bool isMoving;
     private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
-    private Vector3 currentMovement;
-    private Vector3 currentMovementVelocity;
 
     void Start()
     {
@@ -48,11 +45,8 @@ public class PlayerMovement : MonoBehaviour
         // Criação do vetor de movimento baseado nos inputs
         Vector3 move = transform.right * x + transform.forward * z;
 
-        // Suavizando o movimento
-        currentMovement = Vector3.SmoothDamp(currentMovement, move, ref currentMovementVelocity, smoothTime);
-
         // Movendo o jogador
-        controller.Move(currentMovement * speed * Time.deltaTime);
+        controller.Move(move * speed * Time.deltaTime);
 
         // Verificação de pulo
         if (Input.GetButtonDown("Jump") && isGrounded)
