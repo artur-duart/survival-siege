@@ -14,5 +14,15 @@ public class Bullet : MonoBehaviour
             // Destroi a bala
             Destroy(gameObject);
         }
+
+        // Verifica se o objeto colidido possui a tag "Wall"
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // Imprime no console que o alvo foi atingido
+            Debug.Log("Hit a Wall!");
+
+            // Destroi a bala
+            Destroy(gameObject);
+        }
     }
 }
