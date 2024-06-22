@@ -5,24 +5,22 @@ public class Bullet : MonoBehaviour
     // Este método é chamado quando a bala colide com outro objeto
     private void OnCollisionEnter(Collision collision)
     {
-        // Verifica se o objeto colidido possui a tag "Target"
-        if (collision.gameObject.CompareTag("Target"))
-        {
-            // Imprime no console que o alvo foi atingido
-            Debug.Log("Hit " + collision.gameObject.name + "!");
+        // Cria o efeito de impacto e destrói a bala
+        CreateBulletImpactEffect(collision);
+        Destroy(gameObject);
+    }
 
-            // Destroi a bala
-            Destroy(gameObject);
-        }
+    // Cria o efeito de impacto da bala na posição de contato
+    private void CreateBulletImpactEffect(Collision collision)
+    {
+        ContactPoint contact = collision.contacts[0];
+        GameObject impactEffect = Instantiate(
+            GlobalReferences.Instance.bulletImpactEffectPrefab,
+            contact.point,
+            Quaternion.LookRotation(contact.normal)
+        );
 
-        // Verifica se o objeto colidido possui a tag "Wall"
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            // Imprime no console que o alvo foi atingido
-            Debug.Log("Hit a Wall!");
-
-            // Destroi a bala
-            Destroy(gameObject);
-        }
+        // Define o efeito de impacto como filho do objeto atingido
+        impactEffect.transform.SetParent(collision.transform);
     }
 }
