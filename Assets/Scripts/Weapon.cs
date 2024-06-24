@@ -4,14 +4,15 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [Header("Shooting Settings")]
-    public bool isShooting, readyToShoot;
-    private bool allowReset = true;
+    public bool isShooting; // Indica se está atirando
+    private bool readyToShoot = true; // Indica se a arma está pronta para atirar
+    private bool allowReset = true; // Permite resetar o estado de tiro
     public float shootingDelay = 0.1f; // Atraso entre os tiros
     public float burstDelay = 0.1f; // Atraso entre os tiros em modo burst
 
     [Header("Burst Settings")]
-    public int bulletsPerBurst = 3;
-    private int burstBulletsLeft;
+    public int bulletsPerBurst = 3; // Número de balas por rajada
+    private int burstBulletsLeft; // Balas restantes na rajada atual
 
     [Header("Spread Settings")]
     public float spreadIntensity = 0.1f; // Intensidade da propagação
@@ -22,22 +23,27 @@ public class Weapon : MonoBehaviour
     public float bulletVelocity = 30f; // Velocidade da munição
     public float bulletPrefabLifeTime = 3f; // Tempo de vida da munição
 
+    [Header("Effects")]
+    public GameObject muzzleEffect; // Efeito de disparo
+    private Animator animator; // Animador para o recoil
+
     public enum ShootingMode
     {
-        Single,
-        Burst,
-        Auto
+        Single, // Tiro único
+        Burst, // Rajada
+        Auto // Automático
     }
 
-    public ShootingMode currentShootingMode;
+    public ShootingMode currentShootingMode; // Modo de tiro atual
 
     private void Awake()
     {
         readyToShoot = true;
         burstBulletsLeft = bulletsPerBurst;
+        animator = GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
         HandleShootingInput();
     }
@@ -45,14 +51,13 @@ public class Weapon : MonoBehaviour
     private void HandleShootingInput()
     {
         // Verifica o modo de tiro e atualiza o estado de tiro
-        if (currentShootingMode == ShootingMode.Auto)
+        isShooting = currentShootingMode switch
         {
-            isShooting = Input.GetKey(KeyCode.Mouse0);
-        }
-        else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
-        {
-            isShooting = Input.GetKeyDown(KeyCode.Mouse0);
-        }
+            ShootingMode.Auto => Input.GetKey(KeyCode.Mouse0),
+            ShootingMode.Single => Input.GetKeyDown(KeyCode.Mouse0),
+            ShootingMode.Burst => Input.GetKeyDown(KeyCode.Mouse0),
+            _ => isShooting
+        };
 
         // Se pronto para atirar e o jogador está atirando
         if (readyToShoot && isShooting)
@@ -64,19 +69,23 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
+        // Ativa o efeito do cano da arma e animação de recoil
+        muzzleEffect.GetComponent<ParticleSystem>().Play();
+        animator.SetTrigger("RECOIL");
+
+        // Toca o som de disparo da arma
+        SoundManager.Instance.shootingSoundM1911.Play();
+
         readyToShoot = false;
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 
         // Instancia a munição na posição e rotação do spawn
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-
-        // Apontando a bala para enfrentar a direção do tiro
         bullet.transform.forward = shootingDirection;
 
-        // Aplica uma força à munição na direção para frente do spawn
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        if (bulletRb != null)
+        // Aplica uma força à munição
+        if (bullet.TryGetComponent(out Rigidbody bulletRb))
         {
             bulletRb.AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
         }
@@ -87,7 +96,7 @@ public class Weapon : MonoBehaviour
         // Reseta o estado de tiro após um atraso
         if (allowReset)
         {
-            Invoke("ResetShot", shootingDelay);
+            Invoke(nameof(ResetShot), shootingDelay);
             allowReset = false;
         }
 
@@ -95,7 +104,7 @@ public class Weapon : MonoBehaviour
         if (currentShootingMode == ShootingMode.Burst && burstBulletsLeft > 1)
         {
             burstBulletsLeft--;
-            Invoke("FireWeapon", burstDelay);
+            Invoke(nameof(FireWeapon), burstDelay);
         }
     }
 
@@ -109,24 +118,12 @@ public class Weapon : MonoBehaviour
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-        RaycastHit hit;
-        Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit))
-        {
-            // Atingindo algo
-            targetPoint = hit.point;
-        }
-        else
-        {
-            // Atirando no ar
-            targetPoint = ray.GetPoint(100);
-        }
+        Vector3 targetPoint = Physics.Raycast(ray, out RaycastHit hit) ? hit.point : ray.GetPoint(100);
 
         Vector3 direction = targetPoint - bulletSpawn.position;
         float x = Random.Range(-spreadIntensity, spreadIntensity);
         float y = Random.Range(-spreadIntensity, spreadIntensity);
 
-        // Retornando a direção do tiro com propagação
         return direction + new Vector3(x, y, 0);
     }
 
