@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [Header("Player Settings")]
-    public Camera playerCamera;
-
     [Header("Shooting Settings")]
     public bool isShooting, readyToShoot;
     private bool allowReset = true;
@@ -110,7 +107,7 @@ public class Weapon : MonoBehaviour
 
     private Vector3 CalculateDirectionAndSpread()
     {
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
         RaycastHit hit;
         Vector3 targetPoint;
