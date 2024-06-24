@@ -151,7 +151,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71807838}
   serializedVersion: 4
-  m_Mass: 15
+  m_Mass: 75
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -211,7 +211,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd61cb63fb11e7b47878094c8e959b32, type: 2}
+  - {fileID: 2100000, guid: b884c6cd9ca258743b39b3ed8f8b1d7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -806,16 +806,16 @@ MonoBehaviour:
   playerCamera: {fileID: 330585545}
   isShooting: 0
   readyToShoot: 1
-  shootingDelay: 2
+  shootingDelay: 0.2
   burstDelay: 0.1
   bulletsPerBurst: 3
   spreadIntensity: 0.1
   bulletPrefab: {fileID: 6584951772524880239, guid: 07a30b08fb77b9c48b59dba4dc94f887,
     type: 3}
   bulletSpawn: {fileID: 1629830890}
-  bulletVelocity: 100
+  bulletVelocity: 500
   bulletPrefabLifeTime: 3
-  currentShootingMode: 0
+  currentShootingMode: 2
 --- !u!1 &544894357
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +844,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544894357}
   serializedVersion: 4
-  m_Mass: 15
+  m_Mass: 75
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -904,7 +904,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd61cb63fb11e7b47878094c8e959b32, type: 2}
+  - {fileID: 2100000, guid: b884c6cd9ca258743b39b3ed8f8b1d7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1130,6 +1130,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &936686499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 936686501}
+  - component: {fileID: 936686500}
+  m_Layer: 0
+  m_Name: GlobalReferences
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &936686500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936686499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2660d16f56410554baed54706d178d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletImpactEffectPrefab: {fileID: 4669589905665250081, guid: c68b345eab515a04c834f2148656a261,
+    type: 3}
+--- !u!4 &936686501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936686499}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.546587, y: 6.692465, z: 25.951624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1478,7 +1524,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670000551}
   serializedVersion: 4
-  m_Mass: 15
+  m_Mass: 75
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1538,7 +1584,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd61cb63fb11e7b47878094c8e959b32, type: 2}
+  - {fileID: 2100000, guid: b884c6cd9ca258743b39b3ed8f8b1d7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1759,7 +1805,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd61cb63fb11e7b47878094c8e959b32, type: 2}
+  - {fileID: 2100000, guid: b884c6cd9ca258743b39b3ed8f8b1d7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1797,7 +1843,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962063002}
   serializedVersion: 4
-  m_Mass: 15
+  m_Mass: 75
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1844,7 +1890,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965919254}
   serializedVersion: 4
-  m_Mass: 15
+  m_Mass: 75
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1904,7 +1950,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd61cb63fb11e7b47878094c8e959b32, type: 2}
+  - {fileID: 2100000, guid: b884c6cd9ca258743b39b3ed8f8b1d7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1965,3 +2011,4 @@ SceneRoots:
   - {fileID: 1670000556}
   - {fileID: 1484789735}
   - {fileID: 378166797}
+  - {fileID: 936686501}
