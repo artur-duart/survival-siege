@@ -4,6 +4,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; private set; } // Singleton instance
     public AudioSource shootingSoundM1911; // Áudio de disparo da M1911
+    public AudioSource reloadingSoundM1911; // Áudio de carregamento da M1911
+    public AudioSource emptyMagazineSoundM1911; // Áudio de disparo sem munição da M1911
 
     private void Awake()
     {
