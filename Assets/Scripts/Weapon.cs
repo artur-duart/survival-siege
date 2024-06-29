@@ -34,6 +34,14 @@ public class Weapon : MonoBehaviour
     public int bulletsLeft; // Balas restantes no pente
     private bool isReloading; // Indica se está recarregando
 
+    public enum WeaponModel
+    {
+        PistolM1911,
+        M4
+    }
+
+    public WeaponModel thisWeaponModel;
+
     public enum ShootingMode
     {
         Single, // Tiro único
@@ -112,8 +120,8 @@ public class Weapon : MonoBehaviour
         muzzleEffect.GetComponent<ParticleSystem>().Play();
         animator.SetTrigger("RECOIL");
 
-        // Toca o som de disparo da arma
-        SoundManager.Instance.shootingSoundM1911.Play();
+        // Toca o som de disparo da arma baseado no modelo
+        SoundManager.Instance.PlayShootingSound(thisWeaponModel);
 
         readyToShoot = false; // Desabilita o disparo enquanto a arma não está pronta
 
@@ -149,8 +157,10 @@ public class Weapon : MonoBehaviour
 
     private void Reload()
     {
-        // Toca o som de recarga da arma
-        SoundManager.Instance.reloadingSoundM1911.Play();
+        // Toca o som de recarregamento da arma baseado no modelo
+        SoundManager.Instance.PlayReloadSound(thisWeaponModel);
+
+        animator.SetTrigger("RELOAD");
 
         isReloading = true; // Marca como recarregando
         Invoke(nameof(ReloadCompleted), reloadTime); // Chama o método de conclusão de recarga após o tempo de recarga
